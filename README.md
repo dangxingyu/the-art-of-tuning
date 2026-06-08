@@ -4,8 +4,6 @@ This handbook collects practical hyperparameter-tuning moves for optimizer and t
 
 The intended format is a field guide: each chapter names a move, explains when to use it, gives the operating protocol, and records concrete case studies.
 
-The moves are arranged around a single loop. You start from a recipe (borrowed from a scaling prior, or given), you read the run to see whether you can trust it, you decide under a budget where the next evidence should come from, and you make exactly one move. Coordinate descent is the move at the center; the other chapters are the phases that surround it.
-
 ## Chapters
 
 1. [Coordinate Descent: The First Move](01-coordinate-descent.md)

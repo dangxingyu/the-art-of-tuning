@@ -105,6 +105,15 @@ Rounds 0 and 2 are comfortable: their gains are roughly twice the noise floor. R
 
 The correct response is not to discard round 1, and not to accept it blindly. It is to run a confirmation: re-run that candidate two or three times and check whether it sits consistently below the center. If it does, the move is real and you accept it. If it straddles the center, it was noise wearing the costume of signal, and you let it go. The single number could not tell you which; the noise floor told you that you had to ask.
 
+Here the confirmation came back clean:
+
+```text
+round-1 center   (adam_beta1 = 0.8):        0.859786
+candidate reruns (adam_beta1 = 0.683772):   0.858858, 0.858940, 0.858705
+```
+
+No single rerun beats the center by more than the noise floor, yet all three land below it. That consistency is the signal one run could not give: the move is small but real, so we accept `adam_beta1 = 0.683772` and carry it into the final recipe the later chapters build on. Had the reruns straddled `0.859786`, it would have been noise, and we would have kept `adam_beta1 = 0.8`.
+
 This is why the noise floor is load-bearing. Without it, round 1 looks like progress. With it, round 1 becomes a question — and answering that question is what separates a tuned recipe from a lucky one.
 
 ## Philosophy
