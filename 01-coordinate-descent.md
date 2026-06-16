@@ -112,6 +112,12 @@ After the first accepted move, if you skip the coordinate just changed, later ro
 
 This is the right parallelization boundary. Do not wait for one coordinate sweep to finish before launching another coordinate in the same round; they all share the same center and are independent. Do wait before launching the next round; the next center depends on the result.
 
+But this is only the right boundary for a single tuning campaign. If you have abundant parallelism and many recipes to compare — for example different batch sizes, model scales, data mixtures, or optimizer variants — it is often better to run several coordinate-descent campaigns in parallel and give each campaign a thinner within-round sweep. Fully saturating one recipe with every coordinate candidate minimizes wall-clock time for that one recipe, but it can spend more total compute before you learn which recipe family is worth finishing.
+
+In that setting, parallelize across campaigns first, then within each campaign as much as the budget allows. Each campaign still keeps its own center, ledger, noise floor, and accepted moves. The only thing you have changed is where the parallel jobs go: fewer simultaneous coordinates per recipe, more recipes explored at once.
+
+Do not weaken the stopping rule when you do this. A campaign has not converged merely because the coordinates you happened to sweep this wave failed to improve. It has converged only after every active coordinate has been checked against the current center and no candidate clears `epsilon`. If you ration the within-round sweep, unswept coordinates remain debt, not evidence of convergence.
+
 The ideal job shape is one independent run per candidate. This gives the lowest latency, makes failures isolated, and simplifies result accounting. If resources are scarce, shard candidates into fewer jobs, but preserve the logical candidate ledger.
 
 ## Choosing Candidate Values
@@ -257,4 +263,3 @@ accepted improvement
 current recipe
 stop reason
 ```
-

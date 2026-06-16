@@ -44,6 +44,33 @@ narrow range, fine resolution   locates a nearby optimum well,
 
 Use the geometry from the coordinate-descent chapter — multiplicative spacing for scale parameters, complement space for betas — and let the budget decide the spread. Early rounds, when you are still locating the optimum, favor range. Later rounds, when you are refining, favor resolution. Always spend one of your `k` points on the center, because that point re-measures the noise floor and anchors every gain you compute.
 
+## Fitting A Local Curve
+
+When the recipe is healthy and not in a terrible regime, each one-dimensional coordinate slice is often close enough to convex near the current center to model locally. Under a tight budget, you can spend a few points on a coordinate, fit a simple quadratic, and use the fitted minimum to choose the next point instead of sweeping a dense grid.
+
+Fit the curve in the coordinate's natural geometry, not necessarily in raw parameter space:
+
+```text
+scale parameter   z = log(x)
+beta-like knob    z = log(1 - beta) or z = 1 - beta
+ordinary scalar   z = x
+```
+
+Then fit:
+
+```text
+score(z) = a z^2 + b z + c
+z*       = -b / (2a)
+```
+
+If `a > 0`, the minimum is inside or near the sampled range, and the predicted gain clears the noise floor, run the fitted minimum or a tiny sweep around it:
+
+```text
+z* - delta, z*, z* + delta
+```
+
+This is not a claim that the global landscape is convex. It is a local interpolation trick for the regime where the runs are healthy and the coordinate is already near useful values. If the fit is concave, the minimum lands far outside the grid, the best observed point is on a boundary, or the predicted gain is below `epsilon`, ignore the fitted optimum and fall back to the usual rules: expand on boundaries, narrow on interior wins, and confirm gains near the noise floor.
+
 ## Sequential Grid Pruning
 
 The single biggest lever a budget gives you is that rounds are sequential: each round, you know the shape the previous rounds revealed. A static grid throws that knowledge away. A pruned grid spends its limited points where the last round said the optimum probably is.
@@ -122,6 +149,7 @@ A budget does not weaken coordinate descent. It sharpens the part that was alway
 
 - Rank coordinates by information per job, not by habit, and update the ranking.
 - Spend grid points on range early and resolution late.
+- Fit a local quadratic only when the coordinate slice looks healthy enough for interpolation, then verify the proposed minimum.
 - Let the ledger prune the grid: recenter, narrow, expand on boundaries, defer the silent.
 - Pay the quadratic cost of a joint sweep only when oscillation reveals a coupled pair.
 - Stop the campaign when the next round's expected gain is smaller than its cost.
@@ -137,6 +165,8 @@ per round:
   coordinate ranking     the prior and any updates to it
   budget                 jobs available this round
   coordinates swept      which made the cut, and why
+  local curve fit        if used: coordinate geometry, fitted minimum,
+                         predicted gain, and verification candidates
   grid provenance        range and resolution per coordinate, and the
                          pruning operation that produced them (recenter /
                          narrow / expand / new) -- this is what makes an
