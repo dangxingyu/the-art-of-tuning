@@ -63,29 +63,46 @@ The dividing line is simple. Anything that means *the recipe cannot produce a tr
 
 ## The Noise Floor
 
-This is the load-bearing measurement of the whole handbook.
+This is the load-bearing scale estimate of the whole handbook.
 
-Re-run the current center recipe two or three times with different seeds. Record the spread of the metric. That spread is your **noise floor**, and it sets the minimum meaningful improvement `epsilon`:
+Before treating a score difference as real, know the noise scale of this run family. The clean way to measure it is to rerun the same recipe with different seeds and record the spread, but that is not a ritual every agent should perform before every move. Often you only need a rough calibration: a few historical reruns, a center candidate repeated in an early round, or prior knowledge from the same benchmark and scale.
 
 ```text
-center reruns -> {s_1, s_2, s_3, ...}
-noise_floor   = spread of the reruns (e.g. range, or ~2 * std)
-epsilon       = noise_floor
+same-recipe scores -> {s_1, s_2, s_3, ...}   if available
+noise_floor        = rough spread of that run family
+epsilon            = at least that scale
 ```
 
-`epsilon` is not a constant you pick for comfort. It is a number you measure. A gain below the noise floor is not a small win; it is no win at all, and accepting it means you have promoted variance to a recipe change.
+`epsilon` is not a constant you pick for comfort. It is tied to the noise scale of the setting. A gain below the noise floor is not a small win; it is no win at all, and accepting it means you have promoted variance to a recipe change.
 
 Three sources of noise are worth separating, because they have different cures:
 
-- **Seed noise**: initialization and data-order randomness. Cured only by averaging more runs or accepting a wider `epsilon`.
-- **Evaluation noise**: variance in the eval set or metric itself. Cured by a larger or more stable eval.
+- **Seed noise**: initialization and data-order randomness. Handled by knowing its rough scale, using a wider `epsilon`, and occasionally confirming a close call when it matters.
+- **Evaluation noise**: variance in the eval set or metric itself. Reduced by a larger or more stable eval.
 - **Proxy gap**: your validation loss is a stand-in for something you actually care about. Watch for the proxy improving while the target does not — that is a different and more dangerous failure than noise.
 
-Include the center candidate in early rounds, exactly as coordinate descent already recommends. It is never wasted compute: it re-measures the noise floor for free and tells you, every round, whether your gains are still larger than your variance.
+Include the center candidate in early rounds when the budget allows. It is not wasted compute: it gives a cheap refresh of the noise scale and tells you whether the apparent gains are even in the right order of magnitude.
+
+The important thing is scale awareness. In some small but noisy settings, the noise floor is large enough to dominate many plausible tuning gains. For example, in a nanoGPT speedrun track-3 style run, changing only the seed can move the score on the order of `1e-3`. That is enormous if your candidate gains are also `1e-3`. A different benchmark, model size, horizon, or eval protocol can have a different noise scale, so do not borrow the number blindly; borrow the habit of asking what scale a one-run result can support.
+
+## Run Noise And Search Noise
+
+Multiple runs can estimate one kind of randomness: the score of a fixed recipe. If the same recipe lands at different losses under different seeds, data orders, dropout masks, or nondeterministic kernels, reruns reveal the spread. But the point is not to turn every tuning decision into an averaging protocol. The point is to know whether a claimed gain is bigger than the noise a single run can plausibly produce.
+
+There is a second kind of randomness that coordinate descent does not fully solve: the randomness of the tuning path itself. A different candidate grid, a different order of coordinates, a different short-run proxy, or a lucky first-round boundary win can send the campaign through a different sequence of accepted moves. This is not only seed noise; it is search noise. It belongs to the hyperparameter procedure, not just to the training run.
+
+This handbook mostly treats search noise as a scope boundary. Coordinate descent is a disciplined local procedure, not a guarantee that one campaign found the unique best recipe. The practical response is narrower:
+
+- Use literature and earlier rounds to identify which coordinates are sensitive enough to deserve budget.
+- Use the acceptance threshold `epsilon` so a coordinate move must beat the estimated run-noise scale before it changes the recipe.
+- Confirm gains near the threshold only when the move matters enough to justify the extra compute.
+- Record unswept coordinates, fixed coordinates, boundary wins, and search-space changes as caveats in the ledger.
+
+In other words, repeated runs are a calibration tool, not the default operating mode. They do not, by themselves, make the whole tuning path unique. The aim here is to make each accepted local move defensible and to leave enough evidence that a later campaign can see which coordinates mattered and which uncertainties remain.
 
 ## A Small Case Study
 
-Return to the Qwen3 d12, 64K-batch Muon run from the coordinate-descent chapter. The starting center scored `0.862374`. Before trusting any move, re-run that center three times:
+Return to the Qwen3 d12, 64K-batch Muon run from the coordinate-descent chapter. The starting center scored `0.862374`. In a careful calibration pass, we might re-run that center three times:
 
 ```text
 center reruns: 0.862374, 0.863102, 0.861855
@@ -122,7 +139,8 @@ Perception is the discipline of not lying to yourself with your own dashboard.
 
 - Distinguish a sick run from a noisy measurement; they have opposite cures.
 - Make every anomaly a threshold and every threshold a response.
-- Measure the noise floor before you trust a gain, and re-measure it every round.
+- Know the noise scale before you trust a gain, and refresh it when the budget or stakes justify it.
+- Separate run noise from search noise; rough calibration gives scale, not a unique tuning path.
 - When a gain sits inside the noise, do not accept it — confirm it or drop it.
 - Treat the proxy gap as more dangerous than noise, because it survives averaging.
 
@@ -138,13 +156,15 @@ per run:
   response taken         none | resumed | aborted | reseeded | ...
 
 per round:
-  noise floor            spread of center reruns
+  noise floor            estimated spread from same-family evidence
   epsilon                derived from the noise floor
-  confirmation reruns    for any gain near the floor
+  confirmation reruns    optional, for important gains near the floor
+  search caveats         unswept coordinates, boundary wins, changed grids
 
 per campaign:
   proxy metric           what validation loss stands in for
   target metric          what you actually care about, if different
+  sensitive coordinates  coordinates believed important enough to budget for
 ```
 
-The noise floor in particular is not bookkeeping. It is the number every later "is this real?" decision is measured against, and a campaign that does not record it cannot defend a single one of its moves.
+The noise floor in particular is not bookkeeping. It is the scale every later "is this real?" decision is measured against, and a campaign that does not record or estimate it cannot defend a single one of its moves.
