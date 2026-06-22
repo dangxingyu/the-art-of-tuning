@@ -4,6 +4,10 @@ This handbook collects practical hyperparameter-tuning moves for optimizer and t
 
 The intended format is a field guide: each chapter names a move, explains when to use it, gives the operating protocol, and records concrete case studies.
 
+## Website
+
+The GitHub Pages site is the static `index.html` at the repository root. It uses the clay-inspired system in `DESIGN.md` and requires no build step.
+
 ## Scope
 
 This handbook is mostly about nuisance tuning. It assumes a scientific setting has already been chosen: model family, scale, data, batch size, training horizon, and broad optimizer family. Within that setting, the goal is to tune the recipe so the setting receives a fair measurement.

@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1693 929" role="img" aria-labelledby="title desc">
+  <title id="title">Clay tuning workbench</title>
+  <desc id="desc">A clay-style tuning workbench with coordinate axes, recipe cards, candidate blocks, dials, and a ledger.</desc>
+  <defs>
+    <linearGradient id="backdrop" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffaf0"/>
+      <stop offset="0.55" stop-color="#f7e4c5"/>
+      <stop offset="1" stop-color="#edc999"/>
+    </linearGradient>
+    <linearGradient id="cardFace" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff7e8"/>
+      <stop offset="1" stop-color="#ead9bc"/>
+    </linearGradient>
+    <linearGradient id="shadow" x1="0" x2="1">
+      <stop offset="0" stop-color="#0a0a0a" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#0a0a0a" flood-opacity="0.18"/>
+    </filter>
+    <filter id="clayNoise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="8"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.08"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="multiply"/>
+    </filter>
+    <symbol id="cube" viewBox="0 0 120 120">
+      <path d="M18 38c0-16 16-30 38-30h12c23 0 36 11 36 29v45c0 18-15 31-38 31H52c-21 0-34-12-34-30V38Z" filter="url(#clayNoise)"/>
+      <path d="M26 36c8 10 25 17 47 15 12-1 22-5 29-11" fill="none" stroke="#fff" stroke-opacity="0.22" stroke-width="7" stroke-linecap="round"/>
+      <path d="M28 89c14 10 44 14 66-2" fill="none" stroke="#0a0a0a" stroke-opacity="0.12" stroke-width="6" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1693" height="929" fill="url(#backdrop)"/>
+  <ellipse cx="1188" cy="777" rx="520" ry="74" fill="url(#shadow)"/>
+  <ellipse cx="815" cy="776" rx="326" ry="56" fill="#0a0a0a" opacity="0.08"/>
+
+  <g filter="url(#softShadow)">
+    <path d="M1177 96c0-22 18-40 40-40h270c22 0 40 18 40 40v418c0 22-18 40-40 40h-270c-22 0-40-18-40-40V96Z" fill="#0b1110"/>
+    <path d="M1217 67h248c20 0 36 16 36 36v368c0 20-16 36-36 36h-248c-20 0-36-16-36-36V103c0-20 16-36 36-36Z" fill="url(#cardFace)" stroke="#e1caa9" stroke-width="7"/>
+    <path d="M1162 129h254c20 0 36 16 36 36v367c0 20-16 36-36 36h-254c-20 0-36-16-36-36V165c0-20 16-36 36-36Z" fill="url(#cardFace)" stroke="#dfc8a9" stroke-width="7"/>
+    <path d="M1103 195h254c20 0 36 16 36 36v360c0 20-16 36-36 36h-254c-20 0-36-16-36-36V231c0-20 16-36 36-36Z" fill="url(#cardFace)" stroke="#dfc8a9" stroke-width="7"/>
+    <path d="M1044 256h254c20 0 36 16 36 36v356c0 20-16 36-36 36h-254c-20 0-36-16-36-36V292c0-20 16-36 36-36Z" fill="url(#cardFace)" stroke="#dfc8a9" stroke-width="7"/>
+  </g>
+
+  <g opacity="0.96">
+    <rect x="1065" y="294" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1117" y="294" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1169" y="294" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1221" y="294" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1065" y="353" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1117" y="353" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1169" y="353" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1221" y="353" width="26" height="26" rx="13" fill="#1a7f7a"/>
+    <rect x="1270" y="319" width="24" height="24" rx="12" fill="#e8b94a"/>
+    <rect x="1270" y="378" width="24" height="24" rx="12" fill="#ff6b5a"/>
+    <circle cx="1174" cy="482" r="50" fill="#b8a4ed"/>
+    <path d="M1174 455v29l21-18" fill="none" stroke="#704f99" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M1361 650c18-20 49-23 73-9l151 89c24 14 36 42 28 68l-38 119H1257l-33-116c-8-27 4-56 29-70l108-81Z" fill="#121313"/>
+    <ellipse cx="1368" cy="764" rx="56" ry="59" fill="#178782" filter="url(#clayNoise)"/>
+    <ellipse cx="1486" cy="761" rx="57" ry="60" fill="#b8a4ed" filter="url(#clayNoise)"/>
+    <ellipse cx="1601" cy="758" rx="57" ry="60" fill="#ff8f70" filter="url(#clayNoise)"/>
+    <path d="M1368 723v44M1486 719v44M1601 715v44" stroke="#0a0a0a" stroke-opacity="0.55" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="1430" cy="845" r="16" fill="#ff4d8b"/>
+    <circle cx="1533" cy="851" r="18" fill="#a4d4c5"/>
+    <circle cx="1648" cy="833" r="18" fill="#e8b94a"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M821 334l-113 88M823 334l132 64M823 334l4-159M823 334l-84 171" fill="none" stroke="#151817" stroke-width="17" stroke-linecap="round"/>
+    <path d="M721 418l-35 10 20-31M946 379l37 6-25 28M831 188l-22-30 39-1M751 492l-7 38-30-22" fill="#151817"/>
+    <circle cx="823" cy="334" r="20" fill="#efe0c2"/>
+    <circle cx="702" cy="429" r="25" fill="#1a9a91"/>
+    <circle cx="966" cy="403" r="25" fill="#ff4d8b"/>
+    <circle cx="829" cy="157" r="26" fill="#e8b94a"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <use href="#cube" x="677" y="498" width="126" height="126" fill="#ff6b5a"/>
+    <use href="#cube" x="814" y="451" width="134" height="134" fill="#ff4d8b"/>
+    <use href="#cube" x="968" y="475" width="124" height="124" fill="#178782"/>
+    <use href="#cube" x="1177" y="574" width="130" height="130" fill="#b8a4ed"/>
+    <use href="#cube" x="890" y="690" width="132" height="132" fill="#e8b94a"/>
+    <use href="#cube" x="1083" y="700" width="132" height="132" fill="#a4d4c5"/>
+  </g>
+
+  <g fill="none" stroke="#161817" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M780 627c73 19 145 33 218 42" stroke-dasharray="2 23"/>
+    <path d="M1010 668l-28-20M1008 669l-35 12"/>
+    <path d="M946 580c49 42 87 76 128 98" stroke-dasharray="2 23"/>
+    <path d="M1077 680l-37-1M1078 680l-15-30"/>
+    <path d="M1160 654c-36 8-72 19-107 37" stroke-dasharray="2 23"/>
+    <path d="M1052 691l30 17M1052 691l28-21"/>
+    <path d="M909 708c56-8 99-15 148-21" stroke-dasharray="2 23"/>
+    <path d="M1059 686l-26-22M1059 686l-20 31"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="1034" cy="683" r="61" fill="#111313"/>
+    <circle cx="1034" cy="683" r="34" fill="#a4d4c5" filter="url(#clayNoise)"/>
+    <circle cx="1034" cy="683" r="13" fill="#5b9383"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M1411 406c10-14 29-20 47-15l163 46c20 6 33 23 33 43v278c0 24-20 44-44 44h-236c-24 0-44-20-44-44V489c0-9 3-18 8-25l73-58Z" fill="#0f1110"/>
+    <path d="M1406 384c10-14 29-20 47-15l164 47c19 5 32 22 32 42v278c0 24-19 43-43 43h-237c-24 0-43-19-43-43V467c0-9 3-18 8-25l72-58Z" fill="url(#cardFace)" stroke="#dcc29f" stroke-width="7"/>
+    <path d="M1374 512h226M1373 581h226M1373 650h226M1433 456v278M1498 456v278M1563 456v278" stroke="#6c5c49" stroke-opacity="0.55" stroke-width="4"/>
+    <circle cx="1440" cy="592" r="12" fill="#111313"/>
+    <circle cx="1502" cy="630" r="12" fill="#b8a4ed"/>
+    <circle cx="1566" cy="571" r="12" fill="#ff4d8b"/>
+    <circle cx="1500" cy="539" r="12" fill="#111313"/>
+    <circle cx="1439" cy="664" r="12" fill="#178782"/>
+    <circle cx="1565" cy="678" r="12" fill="#e8b94a"/>
+  </g>
+
+  <g opacity="0.22">
+    <path d="M86 845c145-85 301-116 464-89" fill="none" stroke="#fffaf0" stroke-width="16" stroke-linecap="round"/>
+    <path d="M101 789c105-57 223-80 352-70" fill="none" stroke="#fffaf0" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>
