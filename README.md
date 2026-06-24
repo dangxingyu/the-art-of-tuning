@@ -6,7 +6,11 @@ The intended format is a field guide: each chapter names a move, explains when t
 
 ## Website
 
-The GitHub Pages site is the static `index.html` at the repository root. It uses the clay-inspired system in `DESIGN.md` and requires no build step.
+The GitHub Pages site deploys from the static `index.html` at the repository root via `.github/workflows/pages.yml`:
+
+https://dangxingyu.github.io/the-art-of-tuning/
+
+It uses the clay-inspired system in `DESIGN.md` and requires no build step.
 
 ## Scope
 
