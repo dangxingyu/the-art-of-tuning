@@ -6,201 +6,141 @@
     <title>The Art of Tuning</title>
     <meta
       name="description"
-      content="A field guide for nuisance hyperparameter tuning: coordinate moves, noise-aware reads, budgeted grids, transfer priors, and literature grounding."
+      content="A practical handbook for nuisance hyperparameter tuning in expensive training runs."
     >
-    <meta property="og:title" content="The Art of Tuning">
-    <meta
-      property="og:description"
-      content="A practical handbook for tuning nuisance coordinates so scientific settings receive a fair measurement."
-    >
-    <meta property="og:image" content="assets/hero-clay.svg">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <header class="site-header" data-header>
-      <a class="brand" href="#top" aria-label="The Art of Tuning home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>The Art of Tuning</span>
-      </a>
-
-      <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </button>
-
-      <nav class="site-nav" aria-label="Main navigation" data-nav>
+    <header class="topbar">
+      <a class="wordmark" href="index.html" aria-label="The Art of Tuning home">The Art of Tuning</a>
+      <nav class="topnav" aria-label="Primary navigation">
         <a href="#chapters">Chapters</a>
-        <a href="#scope">Scope</a>
+        <a href="#principles">Principles</a>
         <a href="#ledger">Ledger</a>
-        <a href="#sources">Sources</a>
+        <a href="README.md">README</a>
       </nav>
-
-      <a class="header-action" href="README.md">
-        <span>Open README</span>
-        <svg aria-hidden="true" viewBox="0 0 20 20">
-          <path d="M7 4h9v9h-2V7.4l-8.6 8.6L4 14.6 12.6 6H7V4Z"></path>
-        </svg>
-      </a>
     </header>
 
-    <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-media" aria-hidden="true"></div>
-        <div class="hero-inner">
-          <div class="hero-copy">
-            <h1 id="hero-title">The Art of Tuning</h1>
-            <p>
-              A field guide for nuisance hyperparameter tuning: coordinate moves,
-              noise-aware reads, budgeted grids, transfer priors, and literature grounding.
-            </p>
-            <div class="hero-actions">
-              <a class="button primary" href="01-coordinate-descent.md">
-                <span>Start Chapter 01</span>
-                <svg aria-hidden="true" viewBox="0 0 20 20">
-                  <path d="M3 9h10.2L9.6 5.4 11 4l6 6-6 6-1.4-1.4 3.6-3.6H3V9Z"></path>
-                </svg>
-              </a>
-              <a class="button secondary" href="#ledger">
-                <span>Open Ledger</span>
-                <svg aria-hidden="true" viewBox="0 0 20 20">
-                  <path d="M5 3h10a2 2 0 0 1 2 2v12H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v10h10V5H5Zm2 2h6v2H7V7Zm0 4h4v2H7v-2Z"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <div class="hero-panel" aria-label="Handbook status">
-            <p>Scope</p>
-            <strong>Nuisance coordinates first.</strong>
-            <span>Scientific coordinates belong in scaling ladders; this handbook tunes recipes so comparisons are fair.</span>
-          </div>
+    <div class="handbook-shell">
+      <aside class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-section">
+          <p class="sidebar-label">Handbook</p>
+          <a href="#overview">Overview</a>
+          <a href="#chapters">Chapters</a>
+          <a href="#principles">Working Principles</a>
+          <a href="#ledger">Ledger Template</a>
         </div>
-      </section>
+        <div class="sidebar-section">
+          <p class="sidebar-label">Read</p>
+          <a href="chapter.html?doc=01-coordinate-descent.md">1. Coordinate Descent</a>
+          <a href="chapter.html?doc=02-reading-the-run.md">2. Reading the Run</a>
+          <a href="chapter.html?doc=03-tuning-under-a-budget.md">3. Tuning Under a Budget</a>
+          <a href="chapter.html?doc=04-borrowing-a-start-point.md">4. Borrowing a Start Point</a>
+          <a href="chapter.html?doc=05-literature-grounding.md">5. Literature Grounding</a>
+        </div>
+      </aside>
 
-      <section class="section chapters-section" id="chapters" aria-labelledby="chapters-title">
-        <div class="section-heading">
-          <h2 id="chapters-title">Five Moves</h2>
-          <p>
-            Each chapter is a working move: what to launch, what to read, when to stop,
-            and what to record before the next round.
+      <main class="document">
+        <section class="intro" id="overview" aria-labelledby="title">
+          <p class="kicker">A handbook for nuisance hyperparameters</p>
+          <h1 id="title">The Art of Tuning</h1>
+          <p class="lede">
+            This handbook collects practical tuning moves for optimizer and training-recipe work:
+            coordinate descent, run reading, budgeted sweeps, transfer priors, and literature grounding.
           </p>
-        </div>
-
-        <div class="chapter-grid">
-          <article class="chapter-card chapter-pink">
-            <span>01</span>
-            <h3>Coordinate Descent</h3>
-            <p>Probe one coordinate at a time, accept one move, and keep convergence tied to every active coordinate.</p>
-            <a href="01-coordinate-descent.md">
-              <span>Read chapter</span>
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="M7 4h9v9h-2V7.4l-8.6 8.6L4 14.6 12.6 6H7V4Z"></path>
-              </svg>
-            </a>
-          </article>
-
-          <article class="chapter-card chapter-teal">
-            <span>02</span>
-            <h3>Reading the Run</h3>
-            <p>Separate sick runs from noisy measurements, then set an acceptance threshold above the noise floor.</p>
-            <a href="02-reading-the-run.md">
-              <span>Read chapter</span>
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="M7 4h9v9h-2V7.4l-8.6 8.6L4 14.6 12.6 6H7V4Z"></path>
-              </svg>
-            </a>
-          </article>
-
-          <article class="chapter-card chapter-lavender">
-            <span>03</span>
-            <h3>Tuning Under a Budget</h3>
-            <p>Spend each job where it buys information, including local quadratic fits when the regime is healthy.</p>
-            <a href="03-tuning-under-a-budget.md">
-              <span>Read chapter</span>
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="M7 4h9v9h-2V7.4l-8.6 8.6L4 14.6 12.6 6H7V4Z"></path>
-              </svg>
-            </a>
-          </article>
-
-          <article class="chapter-card chapter-peach">
-            <span>04</span>
-            <h3>Borrowing a Start Point</h3>
-            <p>Treat scaling rules as priors with uncertainty, then let the local campaign dispose of the residual.</p>
-            <a href="04-borrowing-a-start-point.md">
-              <span>Read chapter</span>
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="M7 4h9v9h-2V7.4l-8.6 8.6L4 14.6 12.6 6H7V4Z"></path>
-              </svg>
-            </a>
-          </article>
-
-          <article class="chapter-card chapter-ochre">
-            <span>05</span>
-            <h3>Literature Grounding</h3>
-            <p>Convert papers into source cards: claim, regime, coordinate, confidence, and caveat.</p>
-            <a href="05-literature-grounding.md">
-              <span>Read chapter</span>
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="M7 4h9v9h-2V7.4l-8.6 8.6L4 14.6 12.6 6H7V4Z"></path>
-              </svg>
-            </a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section scope-section" id="scope" aria-labelledby="scope-title">
-        <div class="scope-copy">
-          <h2 id="scope-title">Tune Recipes, Not The Scientific Question</h2>
           <p>
-            The handbook assumes the scientific setting has already been chosen:
-            model family, scale, data, batch size, horizon, and broad optimizer family.
-            The campaign tunes the nuisance coordinates inside that setting so the result is not
-            dominated by a stale learning rate, a mis-set timescale, or a bad default.
+            The intended format is a field guide. Each chapter names a move, explains when to use it,
+            gives the operating protocol, and records the caveats a later tuning campaign needs.
           </p>
-        </div>
+          <div class="scope-note" aria-label="Scope">
+            <strong>Scope:</strong>
+            this handbook is about nuisance tuning. Scientific coordinates such as scale, data mixture,
+            model family, and training horizon belong primarily in a scaling ladder; this handbook tunes
+            the recipe so that setting receives a fair measurement.
+          </div>
+        </section>
 
-        <div class="principle-list" aria-label="Working principles">
-          <div>
-            <span>01</span>
-            <p>Treat scientific coordinates as outer-loop scaling-ladder questions.</p>
+        <section class="section" id="chapters" aria-labelledby="chapters-title">
+          <div class="section-heading">
+            <p class="kicker">Reading path</p>
+            <h2 id="chapters-title">Chapters</h2>
           </div>
-          <div>
-            <span>02</span>
-            <p>Move only one accepted coordinate per round.</p>
-          </div>
-          <div>
-            <span>03</span>
-            <p>Know the run-noise scale before trusting a gain.</p>
-          </div>
-          <div>
-            <span>04</span>
-            <p>Let the ledger prune, recenter, narrow, and expand the next grid.</p>
-          </div>
-        </div>
-      </section>
+          <ol class="chapter-list">
+            <li>
+              <a href="chapter.html?doc=01-coordinate-descent.md">
+                <span class="chapter-number">01</span>
+                <span>
+                  <strong>Coordinate Descent: The First Move</strong>
+                  <em>Probe one coordinate at a time, accept one move, and keep convergence tied to every active coordinate.</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="chapter.html?doc=02-reading-the-run.md">
+                <span class="chapter-number">02</span>
+                <span>
+                  <strong>Reading the Run: Perception Before Movement</strong>
+                  <em>Separate sick runs from noisy measurements before accepting a candidate.</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="chapter.html?doc=03-tuning-under-a-budget.md">
+                <span class="chapter-number">03</span>
+                <span>
+                  <strong>Tuning Under a Budget: Rationing the Move</strong>
+                  <em>Spend each job where it buys information, including local fits when the regime is healthy.</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="chapter.html?doc=04-borrowing-a-start-point.md">
+                <span class="chapter-number">04</span>
+                <span>
+                  <strong>Borrowing a Start Point: Scaling as a Prior</strong>
+                  <em>Treat earlier regimes as priors with uncertainty, then dispose of the residual locally.</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="chapter.html?doc=05-literature-grounding.md">
+                <span class="chapter-number">05</span>
+                <span>
+                  <strong>Literature Grounding: Reading the Field Before the Run</strong>
+                  <em>Convert papers into source cards: claim, regime, coordinate, confidence, and caveat.</em>
+                </span>
+              </a>
+            </li>
+          </ol>
+        </section>
 
-      <section class="section ledger-section" id="ledger" aria-labelledby="ledger-title">
-        <div class="ledger-copy">
-          <h2 id="ledger-title">Campaign Ledger</h2>
+        <section class="section" id="principles" aria-labelledby="principles-title">
+          <div class="section-heading">
+            <p class="kicker">Operating stance</p>
+            <h2 id="principles-title">Working Principles</h2>
+          </div>
+          <ul class="principle-list">
+            <li>Tune one clear objective at a time.</li>
+            <li>Treat scientific coordinates as outer-loop questions; tune nuisance coordinates so each setting gets a fair measurement.</li>
+            <li>Move only one accepted coordinate per coordinate-descent round.</li>
+            <li>Know the noise scale before trusting a gain, and keep `epsilon` above that scale.</li>
+            <li>Use parallelism across recipe families first when a single campaign would over-saturate coordinate-level parallelism.</li>
+            <li>Let the ledger prune the grid: recenter, narrow, expand on boundaries, and defer silent coordinates.</li>
+            <li>Read literature as a prior over coordinates, not as an answer.</li>
+            <li>Preserve the exact job recipe, result path, and stop reason.</li>
+          </ul>
+        </section>
+
+        <section class="section" id="ledger" aria-labelledby="ledger-title">
+          <div class="section-heading">
+            <p class="kicker">Campaign state</p>
+            <h2 id="ledger-title">Minimal Ledger</h2>
+          </div>
           <p>
             A tuning campaign should leave behind enough state that the next move is a continuation,
             not a new guess.
           </p>
-        </div>
-
-        <div class="ledger-shell">
-          <div class="ledger-toolbar">
-            <span>results/&lt;experiment_name&gt;/</span>
-            <button class="copy-button" type="button" data-copy-ledger>
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="M7 3h9v10h-2V5H7V3ZM4 7h9v10H4V7Zm2 2v6h5V9H6Z"></path>
-              </svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre aria-label="Ledger template"><code data-ledger-template>results/&lt;experiment_name&gt;/
+          <pre><code>results/&lt;experiment_name&gt;/
   README.md
   state.json
   round_00_candidates.csv
@@ -219,57 +159,9 @@ state.json
   nuisance coordinates swept and caveats
   prior source and predicted start point
   stop reason</code></pre>
-        </div>
-      </section>
-
-      <section class="section sources-section" id="sources" aria-labelledby="sources-title">
-        <div class="section-heading compact">
-          <h2 id="sources-title">Source Cards Before Jobs</h2>
-          <p>
-            Literature grounding spends no compute, but it changes the first grid.
-            The useful unit is a claim with regime, coordinate, confidence, and caveat.
-          </p>
-        </div>
-
-        <div class="source-strip" aria-label="Source-card fields">
-          <div>
-            <span>claim</span>
-            <p>What the paper says.</p>
-          </div>
-          <div>
-            <span>regime</span>
-            <p>Where it was measured.</p>
-          </div>
-          <div>
-            <span>coordinate</span>
-            <p>Which nuisance knob it informs.</p>
-          </div>
-          <div>
-            <span>confidence</span>
-            <p>Narrow grid, medium grid, wide grid, or do not transfer.</p>
-          </div>
-          <div>
-            <span>caveat</span>
-            <p>What would make the claim stop applying.</p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div>
-        <a class="brand" href="#top" aria-label="The Art of Tuning home">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>The Art of Tuning</span>
-        </a>
-        <p>Practical recipe tuning for noisy, expensive training runs.</p>
-      </div>
-      <nav aria-label="Footer navigation">
-        <a href="README.md">README</a>
-        <a href="DESIGN.md">Design</a>
-        <a href="05-literature-grounding.md">References</a>
-      </nav>
-    </footer>
+        </section>
+      </main>
+    </div>
 
     <script src="script.js"></script>
   </body>
